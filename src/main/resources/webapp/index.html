@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="StoreFruits">
+  <head>
+    <title>Tienda de frutitas</title>
+    
+    <!-- CSS Projects -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  </head>
+  <body>
+    
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" ui-sref="home">Frutitas Bonitas</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="#">Listado</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a ui-sref="signup">Registrate</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <div ui-view></div>
+    
+    <!-- Needed Scripts to run the application -->
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- app.js -->
+    <script src="scripts/app.js"></script>
+    
+    <!-- Project Controllers -->
+    <script src="scripts/controllers/HomeController.js"></script>
+    <script src="scripts/controllers/SignupController.js"></script>
+    
+    <!-- Project services -->
+    <script src="scripts/services/userService.js"></script>
+  </body>
+</html>

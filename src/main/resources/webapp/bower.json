@@ -1,0 +1,27 @@
+{
+  "name": "Tienda frutas",
+  "version": "0.1",
+  "authors": [
+    "julrod092 <julrod092@gmail.com>"
+  ],
+  "description": "Tienda Frutas",
+  "keywords": [
+    "Tienda",
+    "Frutas"
+  ],
+  "license": "MIT",
+  "homepage": "index.html",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.3",
+    "angular-ui-router": "~0.2.15",
+    "foundation": "~5.5.2",
+    "bootstrap": "~3.3.5"
+  }
+}
