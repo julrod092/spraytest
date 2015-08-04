@@ -7,16 +7,16 @@ import spray.http._
 import spray.httpx.SprayJsonSupport
 import spray.routing._
 
-object RoutesActor{
-  def props : Props = Props(new RoutesActor)
+object UserRouteActor{
+  def props : Props = Props(new UserRouteActor)
 }
 
-class RoutesActor extends Actor with RoutesTrait {
+class UserRouteActor extends Actor with UserRouteTrait {
   def actorRefFactory = context
   def receive = runRoute(myRoute)
 }
 
-trait RoutesTrait extends HttpService with SprayJsonSupport {
+trait UserRouteTrait extends HttpService with SprayJsonSupport {
 
   val userController = new ControllerUser
 
