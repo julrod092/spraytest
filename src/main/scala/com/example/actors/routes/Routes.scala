@@ -25,7 +25,7 @@ trait RoutesTrait extends HttpService with SprayJsonSupport {
         putRoute
       } ~
         post {
-          login
+          postRoute
         }
 
   protected lazy val putRoute =
@@ -43,7 +43,7 @@ trait RoutesTrait extends HttpService with SprayJsonSupport {
       }
     }
 
-  protected lazy val login =
+  protected lazy val postRoute =
     entity(as[UserLogin]) { userLogin =>
       detach() {
         if (userController.loginUser(userLogin)) {
