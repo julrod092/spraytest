@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <form>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="text" class="form-control" ng-model="user.email" placeholder="Email">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" class="form-control" ng-model="user.pass" placeholder="Password">
+        </div>
+        <button type="submit" ng-click="login()" class="btn btn-success btn-lg btn-block">Ingresar</button>
+      </form>
+      <br>
+      <div ng-show="alertsuc" class="alert alert-success" role="alert">{{success}}</div>
+      <div ng-show="alerterr" class="alert alert-danger" role="alert">{{success}}</div>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</div>
