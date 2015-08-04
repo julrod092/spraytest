@@ -1,11 +1,12 @@
-package com.example
+package com.example.config
 
 import akka.actor.{ActorSystem, Props}
 import akka.io.IO
-import com.example.actors.routes.RoutesActor
-import spray.can.Http
 import akka.pattern.ask
 import akka.util.Timeout
+import com.example.actors.routes.RoutesActor
+import spray.can.Http
+
 import scala.concurrent.duration._
 
 object Boot extends App {
