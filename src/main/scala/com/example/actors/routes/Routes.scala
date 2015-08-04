@@ -10,14 +10,15 @@ import spray.routing._
 
 class RoutesActor extends Actor with RoutesTrait {
   def actorRefFactory = context
-  def receive = runRoute(myRoute ~ staticRoute)
+
+  def receive = runRoute(userRoute ~ staticRoute)
 }
 
 trait RoutesTrait extends HttpService with SprayJsonSupport {
 
   val userController = new ControllerUser
 
-  val myRoute =
+  val userRoute =
     path("user"){
       put {
         putRoute
