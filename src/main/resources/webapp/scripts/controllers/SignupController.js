@@ -8,7 +8,7 @@ angular
       $scope.register = function(){
         var json = angular.toJson($scope.user)
         console.log(json)
-         var promise = userService.createUser("/user", json);
+        var promise = userService.createUser("/user", json);
         
         promise.then(
           function(success){

@@ -1,12 +1,11 @@
 package com.example.repository
 
 import com.example.config.MongoConnection
-import com.example.domain.User
 import com.example.controller.transformer.UserTransformer
+import com.example.domain.{UserLogin, User}
 import com.mongodb.MongoExecutionTimeoutException
 import com.mongodb.casbah.MongoCursor
 import com.mongodb.casbah.commons.MongoDBObject
-
 
 class UserDAO {
 
@@ -30,9 +29,9 @@ class UserDAO {
     result
   }
 
-  def findUserByEmail (email : String) : MongoCursor = {
-    lazy val query = MongoDBObject("email" -> email)
-    lazy val result = collection.collection.find(query)
+  def findUserByEmail (userLogin: UserLogin) = {
+    lazy val query = MongoDBObject("email" -> userLogin.email)
+    lazy val result = collection.collection.findOne(query)
     result
   }
 }

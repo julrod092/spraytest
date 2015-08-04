@@ -7,6 +7,7 @@ import spray.json.DefaultJsonProtocol
  * Created by julian.rodriguez on 30/07/2015.
  */
 case class User (name : String, email : String, pass : String)
+case class UserLogin(email : String, pass : String)
 case class FindByName(name : String)
 case class FindByEmail(email : String)
 
@@ -20,4 +21,8 @@ object FindByName extends DefaultJsonProtocol with SprayJsonSupport{
 
 object FindByEmail extends DefaultJsonProtocol with SprayJsonSupport {
   implicit val findByEmailFormat = jsonFormat1(FindByEmail.apply)
+}
+
+object UserLogin extends DefaultJsonProtocol with SprayJsonSupport {
+  implicit val userLoginFormat = jsonFormat2(UserLogin.apply)
 }

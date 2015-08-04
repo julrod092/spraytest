@@ -16,6 +16,16 @@ angular
           url: '/signup',
           templateUrl: 'views/sign-up-template.html',
           controller: 'SignupController'
+        })
+        .state('login', {
+          url: '/login',
+          templateUrl: 'views/login-template.html',
+          controller: 'LoginController'
+        })
+        .state('fruits', {
+          url: '/fruits',
+          templateUrl: 'views/fruits-template.html',
+          controller: 'SignupController'
         });
     }
   )
