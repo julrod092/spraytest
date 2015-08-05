@@ -17,10 +17,10 @@ class ApiRouteActor (route1 : ActorRef, route2 : ActorRef) extends Actor with Ht
   def receive = runRoute{
     compressResponseIfRequested() {
       pathPrefix("user"){
-        ctx => println(ctx); route1 ! ctx
+        ctx => route1 ! ctx
       } ~
       pathPrefix("fruit"){
-        ctx => println(ctx); route2 ! ctx
+        ctx => route2 ! ctx
       }
     }~
     compressResponseIfRequested(){

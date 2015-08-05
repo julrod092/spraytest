@@ -19,5 +19,4 @@ class ActorSystemBean {
   val userService = system.actorOf(UserRouteActor.props, "user-router")
 
   val apiRouteActor = system.actorOf(ApiRouteActor.props(userService, fruitService), "Api-Route-Actor")
-  println(apiRouteActor)
 }
