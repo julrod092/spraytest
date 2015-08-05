@@ -12,10 +12,10 @@ import spray.routing.HttpService
  */
 
 object FruitRouteActor{
-  def props : Props = Props(new UserRouteActor)
+  def props : Props = Props(new FruitRouteActor)
 }
 
-class FruitRoute extends Actor with FruitRouteTrait{
+class FruitRouteActor extends Actor with FruitRouteTrait{
   def actorRefFactory = context
   def receive = runRoute(fruitRoute)
 }

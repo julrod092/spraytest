@@ -11,18 +11,16 @@ object ApiRouteActor {
   def props (route1 : ActorRef, route2 : ActorRef) : Props = Props(new ApiRouteActor(route1, route2))
 }
 
-class ApiRouteActor (route1 : ActorRef, route2 : ActorRef) extends Actor
-with HttpService
-with ActorLogging {
-  println(route1, route2)
+class ApiRouteActor (route1 : ActorRef, route2 : ActorRef) extends Actor with HttpService with ActorLogging {
+
   def actorRefFactory = context
   def receive = runRoute{
     compressResponseIfRequested() {
       pathPrefix("user"){
-        ctx => route1 ! ctx
+        ctx => println(ctx); route1 ! ctx
       } ~
       pathPrefix("fruit"){
-        ctx => route2 ! ctx
+        ctx => println(ctx); route2 ! ctx
       }
     }~
     compressResponseIfRequested(){

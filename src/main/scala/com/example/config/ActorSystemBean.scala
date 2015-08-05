@@ -15,8 +15,9 @@ class ActorSystemBean {
 
   implicit val system = ActorSystem("FruitStore")
 
-  lazy val userService = system.actorOf(UserRouteActor.props, "user-router")
-  lazy val fruitService = system.actorOf(FruitRouteActor.props, "fruit-router")
+  val fruitService = system.actorOf(FruitRouteActor.props, "fruit-router")
+  val userService = system.actorOf(UserRouteActor.props, "user-router")
 
-  lazy val apiRouteActor = system.actorOf(ApiRouteActor.props(userService, fruitService), "Api-Route-Actor")
+  val apiRouteActor = system.actorOf(ApiRouteActor.props(userService, fruitService), "Api-Route-Actor")
+  println(apiRouteActor)
 }
