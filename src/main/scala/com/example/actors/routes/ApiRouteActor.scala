@@ -8,20 +8,25 @@ import spray.routing.HttpService
  */
 
 object ApiRouteActor {
-  def props (route : ActorRef) : Props = Props(new ApiRouteActor(route))
+  def props (route1 : ActorRef, route2 : ActorRef) : Props = Props(new ApiRouteActor(route1, route2))
 }
 
-class ApiRouteActor (route : ActorRef) extends Actor
+class ApiRouteActor (route1 : ActorRef, route2 : ActorRef) extends Actor
 with HttpService
 with ActorLogging {
-
+  println(route1, route2)
   def actorRefFactory = context
   def receive = runRoute{
     compressResponseIfRequested() {
       pathPrefix("user"){
-        ctx => route ! ctx
+        ctx => route1 ! ctx
       } ~
-        path("")(getFromResource("webapp/index.html")) ~ getFromResourceDirectory("webapp")
+      pathPrefix("fruit"){
+        ctx => route2 ! ctx
+      }
+    }~
+    compressResponseIfRequested(){
+      path("")(getFromResource("webapp/index.html")) ~ getFromResourceDirectory("webapp")
     }
   }
 }

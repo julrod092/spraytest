@@ -13,14 +13,14 @@ object UserRouteActor{
 
 class UserRouteActor extends Actor with UserRouteTrait {
   def actorRefFactory = context
-  def receive = runRoute(myRoute)
+  def receive = runRoute(userRoute)
 }
 
 trait UserRouteTrait extends HttpService with SprayJsonSupport {
 
   val userController = new ControllerUser
 
-  val myRoute =
+  val userRoute =
       put {
         putRoute
       } ~
