@@ -1,8 +1,5 @@
 package com.example.controller.transformer
 
-/**
- * Created by julian.rodriguez on 30/07/2015.
- */
 import com.example.domain.User
 import com.mongodb.casbah.commons.MongoDBObject
 

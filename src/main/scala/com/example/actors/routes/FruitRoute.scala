@@ -7,10 +7,6 @@ import spray.http.{HttpResponse, StatusCodes}
 import spray.httpx.SprayJsonSupport
 import spray.routing.HttpService
 
-/**
- * Created by julian.rodriguez on 04/08/2015.
- */
-
 object FruitRouteActor{
   def props : Props = Props(new FruitRouteActor)
 }

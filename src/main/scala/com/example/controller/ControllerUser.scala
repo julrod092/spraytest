@@ -1,14 +1,8 @@
 package com.example.controller
 
-import com.example.domain.{UserLogin, User}
+import com.example.domain.{User, UserLogin}
 import com.example.repository.UserDAO
 import com.mongodb.casbah.Imports._
-
-import scala.util.parsing.json.JSONArray
-
-/**
- * Created by julian.rodriguez on 03/08/2015.
- */
 
 class ControllerUser {
 

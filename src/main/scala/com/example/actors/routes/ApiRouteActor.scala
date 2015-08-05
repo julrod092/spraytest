@@ -1,11 +1,7 @@
 package com.example.actors.routes
 
-import akka.actor.{ActorLogging, Props, ActorRef, Actor}
+import akka.actor.{Actor, ActorLogging, ActorRef, Props}
 import spray.routing.HttpService
-
-/**
- * Created by julian.rodriguez on 04/08/2015.
- */
 
 object ApiRouteActor {
   def props (route1 : ActorRef, route2 : ActorRef) : Props = Props(new ApiRouteActor(route1, route2))

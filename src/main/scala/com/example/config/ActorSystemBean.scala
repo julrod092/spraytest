@@ -1,11 +1,7 @@
 package com.example.config
 
 import akka.actor.ActorSystem
-import com.example.actors.routes.{ApiRouteActor, UserRouteActor, FruitRouteActor}
-
-/**
- * Created by julian.rodriguez on 04/08/2015.
- */
+import com.example.actors.routes.{ApiRouteActor, FruitRouteActor, UserRouteActor}
 
 object ActorSystemBean {
   def apply(): ActorSystemBean = new ActorSystemBean

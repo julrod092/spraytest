@@ -3,9 +3,6 @@ package com.example.domain
 import spray.httpx.SprayJsonSupport
 import spray.json.DefaultJsonProtocol
 
-/**
- * Created by julian.rodriguez on 30/07/2015.
- */
 case class User (name : String, email : String, pass : String)
 case class UserLogin(email : String, pass : String)
 case class FindByName(name : String)
