@@ -1,7 +1,7 @@
 angular
   .module('StoreFruits')
-  .controller('AddFruitController', [ '$scope', 'fruitService', '$http',
-    function($scope, fruitService, $http){
+  .controller('AddFruitController', [ '$scope', '$state','fruitService', '$http',
+    function($scope, $state, fruitService, $http){
       
       $scope.success = ""
       
@@ -12,11 +12,12 @@ angular
         
         promise.then(
           function(success){
+            $state.go('fruits');
             $scope.success = success
             $scope.alertsuc = true
           },
           function(error){
-            $scope.success = error
+            $scope.success = "Datos malos"
             $scope.alerterr = true
           }
         );

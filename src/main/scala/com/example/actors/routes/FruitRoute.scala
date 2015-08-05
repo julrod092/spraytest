@@ -2,8 +2,8 @@ package com.example.actors.routes
 
 import akka.actor.{Actor, Props}
 import com.example.controller.FruitController
-import com.example.domain.{Fruit, User}
-import spray.http.{StatusCodes, HttpResponse}
+import com.example.domain.Fruit
+import spray.http.{HttpResponse, StatusCodes}
 import spray.httpx.SprayJsonSupport
 import spray.routing.HttpService
 
