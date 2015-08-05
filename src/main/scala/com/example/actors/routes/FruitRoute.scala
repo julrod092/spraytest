@@ -1,6 +1,9 @@
 package com.example.actors.routes
 
 import akka.actor.{Actor, Props}
+import com.example.controller.FruitController
+import com.example.domain.{Fruit, User}
+import spray.http.{StatusCodes, HttpResponse}
 import spray.httpx.SprayJsonSupport
 import spray.routing.HttpService
 
@@ -19,10 +22,25 @@ class FruitRoute extends Actor with FruitRouteTrait{
 
 trait FruitRouteTrait extends HttpService with SprayJsonSupport {
 
+  val fruitController = new FruitController
+
   val fruitRoute =
-  get{
-    complete{
-      <p>Hola</p>
+    put {
+      putRoute
     }
-  }
+
+  protected lazy val putRoute =
+    entity(as[Fruit]) { fruit =>
+      detach() {
+        if (fruitController.addFruit(fruit)) {
+          complete {
+            HttpResponse(StatusCodes.OK)
+          }
+        } else {
+          complete {
+            HttpResponse(StatusCodes.BadRequest)
+          }
+        }
+      }
+    }
 }

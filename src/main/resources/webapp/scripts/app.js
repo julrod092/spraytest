@@ -30,7 +30,7 @@ angular
         .state('addfruit', {
           url: '/addfruit',
           templateUrl: 'views/add-fruit-template.html',
-          //controller: 'AddFruitController'
+          controller: 'AddFruitController'
         });
     }
   )

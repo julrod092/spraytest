@@ -1,14 +1,14 @@
 angular
   .module('StoreFruits')
-  .controller('AddFruitController', [ '$scope', 'userService', '$http',
+  .controller('AddFruitController', [ '$scope', 'fruitService', '$http',
     function($scope, fruitService, $http){
       
       $scope.success = ""
       
       $scope.addfruit = function(){
-        var json = angular.toJson($scope.user)
+        var json = angular.toJson($scope.fruit)
         console.log(json)
-        var promise = userService.createUser("/fruit", json);
+        var promise = fruitService.addFruit("/fruit", json);
         
         promise.then(
           function(success){
