@@ -15,12 +15,12 @@ class ApiRouteActor (route1 : ActorRef, route2 : ActorRef) extends Actor with Ht
       pathPrefix("user"){
         ctx => route1 ! ctx
       } ~
-      pathPrefix("fruit"){
-        ctx => route2 ! ctx
-      }
+        pathPrefix("fruit"){
+          ctx => route2 ! ctx
+        }
     }~
-    compressResponseIfRequested(){
-      path("")(getFromResource("webapp/index.html")) ~ getFromResourceDirectory("webapp")
-    }
+      compressResponseIfRequested(){
+        path("")(getFromResource("webapp/index.html")) ~ getFromResourceDirectory("webapp")
+      }
   }
 }
