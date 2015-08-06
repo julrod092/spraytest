@@ -3,18 +3,15 @@ package com.example.controller
 import com.example.domain.{User, UserLogin}
 import com.example.repository.UserDAO
 import com.mongodb.casbah.Imports._
+import spray.http.HttpResponse
 
 class UserController {
 
   private val userDAO = new UserDAO
 
-  def registerUser(user: User): (Boolean,String) = {
-    val (create,msg) = userDAO.createUser(user)
-    if (create) {
-      (true,msg)
-    } else {
-      (false,msg)
-    }
+  def registerUser(user: User): HttpResponse = {
+    val create = userDAO.createUser(user)
+    create
   }
 
   def loginUser(userLogin: UserLogin):Boolean = {

@@ -2,24 +2,25 @@ package com.example.repository
 
 import com.example.config.MongoConnection
 import com.example.controller.transformer.UserTransformer
-import com.example.domain.{UserLogin, User}
-import com.mongodb.{MongoException, BasicDBObject, MongoExecutionTimeoutException}
+import com.example.domain.{User, UserLogin}
 import com.mongodb.casbah.MongoCursor
 import com.mongodb.casbah.commons.MongoDBObject
+import com.mongodb.{BasicDBObject, MongoException, MongoExecutionTimeoutException}
+import spray.http.{HttpResponse, StatusCodes}
 
 class UserDAO {
 
   lazy val collection = new MongoConnection("user")
 
-  def createUser (user : User) : (Boolean,String) = {
+  def createUser (user : User) : HttpResponse = {
     val userMongoObject = new UserTransformer
     try{
       collection.collection.createIndex(new BasicDBObject("email", 1), new BasicDBObject("unique", true))
       collection.collection.insert(userMongoObject.mongoDBObject(user))
-      (true,"Creacion correcta")
+      HttpResponse(StatusCodes.OK, "Creacion correcta")
     }catch{
-      case t : MongoExecutionTimeoutException => (false,"MongDB esta apagado")
-      case t : MongoException => (false,"Usuario ya existe")
+      case t : MongoExecutionTimeoutException => HttpResponse(StatusCodes.BadRequest, "MongDB esta apagado")
+      case t : MongoException => HttpResponse(StatusCodes.BadRequest, "Usuario ya existe")
     }
   }
 

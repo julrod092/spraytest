@@ -30,19 +30,10 @@ trait UserRouteTrait extends HttpService with SprayJsonSupport {
 
   protected lazy val putRoute =
     entity(as[User]) { user =>
-      val (create,msg) = userController.registerUser(user)
-      println(create)
+      val create = userController.registerUser(user)
       detach() {
-        if (create) {
-          complete {
-            HttpResponse(StatusCodes.OK)
-            msg
-          }
-        } else {
-          complete {
-            HttpResponse(StatusCodes.BadRequest)
-            msg
-          }
+        complete{
+          create
         }
       }
 
