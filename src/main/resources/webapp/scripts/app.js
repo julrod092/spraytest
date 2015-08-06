@@ -25,7 +25,7 @@ angular
         .state('fruits', {
           url: '/fruits',
           templateUrl: 'views/fruits-template.html',
-          //controller: 'FruitsController'
+          controller: 'FruitsController'
         })
         .state('addfruit', {
           url: '/addfruit',
