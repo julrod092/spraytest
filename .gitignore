@@ -3,3 +3,11 @@
 target
 .classpath
 .idea
+/bin/
+
+src/
+main/
+resources
+project
+.sbtserver
+.cache-main

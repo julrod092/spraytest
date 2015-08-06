@@ -1,6 +1,6 @@
 package com.example.actors.routes
 
-import akka.actor.{Actor, Props}
+import akka.actor.{ Actor, Props }
 import com.example.controller.FruitController
 import com.example.domain.Fruit
 import spray.httpx.SprayJsonSupport
@@ -26,6 +26,9 @@ trait FruitRouteTrait extends HttpService with SprayJsonSupport {
     } ~
       get {
         getRoute
+      } ~
+      post {
+        postRoute
       }
 
   protected lazy val putRoute =
@@ -45,6 +48,19 @@ trait FruitRouteTrait extends HttpService with SprayJsonSupport {
         complete {
           val getFruits = fruitController.getAllFruits
           getFruits
+        }
+      }
+    }
+
+  protected lazy val postRoute =
+    path("buyFruit") {
+      detach() {
+        entity(as[Fruit]) {fruit=>
+          val fruitController = new FruitController
+          complete {
+            val sellFrut = fruitController.sellFruit(fruit)
+            sellFrut
+          }
         }
       }
     }
