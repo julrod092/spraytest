@@ -17,7 +17,7 @@ angular
             $scope.alertsuc = true
           },
           function(error){
-            $scope.success = "Datos malos"
+            $scope.success = error
             $scope.alerterr = true
           }
         );

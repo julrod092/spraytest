@@ -20,7 +20,7 @@ class UserDAO {
       HttpResponse(StatusCodes.OK, "Creacion correcta")
     }catch{
       case t : MongoExecutionTimeoutException => HttpResponse(StatusCodes.BadRequest, "MongDB esta apagado")
-      case t : MongoException => HttpResponse(StatusCodes.BadRequest, "Usuario ya existe")
+      case t : MongoException => HttpResponse(StatusCodes.Found, "Usuario ya existe")
     }
   }
 

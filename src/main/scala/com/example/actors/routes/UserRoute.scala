@@ -3,7 +3,6 @@ package com.example.actors.routes
 import akka.actor.{Actor, Props}
 import com.example.controller.UserController
 import com.example.domain.{User, UserLogin}
-import spray.http._
 import spray.httpx.SprayJsonSupport
 import spray.routing._
 
@@ -42,14 +41,9 @@ trait UserRouteTrait extends HttpService with SprayJsonSupport {
   protected lazy val postRoute =
     entity(as[UserLogin]) { userLogin =>
       detach() {
-        if (userController.loginUser(userLogin)) {
-          complete {
-            HttpResponse(StatusCodes.OK)
-          }
-        } else {
-          complete {
-            HttpResponse(StatusCodes.BadRequest)
-          }
+        val login = userController.loginUser(userLogin)
+        complete{
+          login
         }
       }
     }

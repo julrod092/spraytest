@@ -3,7 +3,7 @@ package com.example.controller
 import com.example.domain.{User, UserLogin}
 import com.example.repository.UserDAO
 import com.mongodb.casbah.Imports._
-import spray.http.HttpResponse
+import spray.http.{HttpResponse, StatusCodes}
 
 class UserController {
 
@@ -14,20 +14,24 @@ class UserController {
     create
   }
 
-  def loginUser(userLogin: UserLogin):Boolean = {
+  def loginUser(userLogin: UserLogin) : HttpResponse = {
     val findByName = userDAO.findUserByEmail(userLogin)
     try{
       val nameQuery = findByName.map(_.as[String]("email"))
       val passQuery = findByName.map(_.as[String]("pass"))
       val Some(email) = nameQuery
       val Some(pass) = passQuery
-      if(userLogin.email==email && userLogin.pass==pass ){
-        true
+      if(userLogin.email == email){
+        if(userLogin.pass == pass){
+          HttpResponse(StatusCodes.OK, "Correct login")
+        }else{
+          HttpResponse(StatusCodes.NotAcceptable, "Incorrect Password")
+        }
       }else{
-        false
+        HttpResponse(StatusCodes.NotFound, "Incorrect email")
       }
     }catch{
-      case e:MatchError => false
+      case e:MatchError => HttpResponse(StatusCodes.NotFound, "Incorrect email")
     }
   }
 }
