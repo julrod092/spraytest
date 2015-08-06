@@ -6,17 +6,18 @@ import com.example.domain.Fruit
 import com.mongodb.casbah.commons.MongoDBObject
 import com.mongodb.{BasicDBObject, MongoExecutionTimeoutException}
 import com.mongodb.casbah.MongoCursor
+import spray.http.{StatusCodes, HttpResponse}
 
 class FruitDAO {
   lazy val collection = new MongoConnection("fruit")
 
-  def addFruit (fruit: Fruit) : Boolean = {
+  def addFruit (fruit: Fruit) : HttpResponse = {
     val fruitMongoObject = new FruitTransformer
     try{
       collection.collection.insert(fruitMongoObject.mongoDBObject(fruit))
-      true
+      HttpResponse(StatusCodes.OK, "Creacion correcta")
     }catch{
-      case t : MongoExecutionTimeoutException => false
+      case t : MongoExecutionTimeoutException => HttpResponse(StatusCodes.BadRequest, "MongDB esta apagado")
     }
   }
 
