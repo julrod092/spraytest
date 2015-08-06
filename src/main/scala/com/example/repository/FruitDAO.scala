@@ -4,6 +4,7 @@ import com.example.config.MongoConnection
 import com.example.controller.transformer.FruitTransformer
 import com.example.domain.Fruit
 import com.mongodb.MongoExecutionTimeoutException
+import com.mongodb.casbah.MongoCursor
 
 class FruitDAO {
   lazy val collection = new MongoConnection("fruit")
@@ -18,5 +19,8 @@ class FruitDAO {
     }
   }
 
-
+  def getAllFruits : MongoCursor = {
+    val listOfFruits : MongoCursor = collection.collection.find()
+    listOfFruits
+  }
 }

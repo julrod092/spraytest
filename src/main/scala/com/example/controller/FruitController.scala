@@ -3,6 +3,8 @@ package com.example.controller
 import com.example.domain.Fruit
 import com.example.repository.FruitDAO
 
+import scala.util.parsing.json.JSONArray
+
 class FruitController {
   private val fruitDAO = new FruitDAO
 
@@ -13,5 +15,11 @@ class FruitController {
     } else {
       false
     }
+  }
+
+  def listAllFruits : JSONArray = {
+    val getFruits = fruitDAO.getAllFruits
+    val array = JSONArray(getFruits.toList)
+    array
   }
 }
