@@ -1,6 +1,6 @@
 package com.example.actors.routes
 
-import akka.actor.{Props, Actor}
+import akka.actor.{Actor, Props}
 import com.example.controller.ControllerUser
 import com.example.domain.{User, UserLogin}
 import spray.http._
@@ -21,12 +21,12 @@ trait UserRouteTrait extends HttpService with SprayJsonSupport {
   val userController = new ControllerUser
 
   val userRoute =
-      put {
-        putRoute
-      } ~
-        post {
-          postRoute
-        }
+    put {
+      putRoute
+    } ~
+    post {
+      postRoute
+    }
 
   protected lazy val putRoute =
     entity(as[User]) { user =>
@@ -41,7 +41,8 @@ trait UserRouteTrait extends HttpService with SprayJsonSupport {
           }
         }
       }
-    }
+
+  }
 
   protected lazy val postRoute =
     entity(as[UserLogin]) { userLogin =>

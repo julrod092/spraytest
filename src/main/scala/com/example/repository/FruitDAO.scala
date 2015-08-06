@@ -3,7 +3,6 @@ package com.example.repository
 import com.example.config.MongoConnection
 import com.example.controller.transformer.FruitTransformer
 import com.example.domain.Fruit
-import com.mongodb.MongoExecutionTimeoutException
 import com.mongodb.casbah.MongoCursor
 
 class FruitDAO {
@@ -15,12 +14,12 @@ class FruitDAO {
       collection.collection.insert(fruitMongoObject.mongoDBObject(fruit))
       true
     }catch{
-      case t : MongoExecutionTimeoutException => false
+      case t : Throwable => false
     }
   }
 
   def getAllFruits : MongoCursor = {
-    val listOfFruits : MongoCursor = collection.collection.find()
-    listOfFruits
+    val allFruits = collection.collection.find()
+    allFruits
   }
 }

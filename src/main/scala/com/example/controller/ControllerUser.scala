@@ -18,7 +18,6 @@ class ControllerUser {
   }
 
   def loginUser(userLogin: UserLogin):Boolean = {
-    val userDAO = new UserDAO
     val findByName = userDAO.findUserByEmail(userLogin)
     try{
       val nameQuery = findByName.map(_.as[String]("email"))
@@ -35,3 +34,4 @@ class ControllerUser {
     }
   }
 }
+

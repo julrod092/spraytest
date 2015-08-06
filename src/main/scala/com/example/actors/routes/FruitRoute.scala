@@ -3,8 +3,7 @@ package com.example.actors.routes
 import akka.actor.{Actor, Props}
 import com.example.controller.FruitController
 import com.example.domain.Fruit
-import spray.http.MediaTypes._
-import spray.http.{HttpResponse, MediaTypes, StatusCodes}
+import spray.http.{HttpResponse, StatusCodes}
 import spray.httpx.SprayJsonSupport
 import spray.routing.HttpService
 
@@ -19,8 +18,6 @@ class FruitRouteActor extends Actor with FruitRouteTrait{
 
 trait FruitRouteTrait extends HttpService with SprayJsonSupport {
 
-  val fruitController = new FruitController
-
   val fruitRoute =
     put {
       putRoute
@@ -32,6 +29,7 @@ trait FruitRouteTrait extends HttpService with SprayJsonSupport {
   protected lazy val putRoute =
     entity(as[Fruit]) { fruit =>
       detach() {
+        val fruitController = new FruitController
         if (fruitController.addFruit(fruit)) {
           complete {
             HttpResponse(StatusCodes.OK)
@@ -45,12 +43,13 @@ trait FruitRouteTrait extends HttpService with SprayJsonSupport {
     }
 
   protected lazy val getRoute =
+  path("getAllFruits"){
     detach(){
-      val listOfFruits = fruitController.listAllFruits
-      respondWithMediaType(`application/json`){
-        complete{
-          listOfFruits.toString
-        }
+      val fruitController = new FruitController
+      complete{
+        val getFruits = fruitController.getAllFruits
+        getFruits
       }
     }
+  }
 }
