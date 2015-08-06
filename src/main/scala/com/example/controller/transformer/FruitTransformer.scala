@@ -7,6 +7,7 @@ class FruitTransformer {
   def mongoDBObject (fruit: Fruit) = MongoDBObject(
     "name" -> fruit.name,
     "peso" -> fruit.peso,
-    "color" -> fruit.color
+    "quantity" -> fruit.quantity,
+    "image" -> fruit.image
   )
 }
