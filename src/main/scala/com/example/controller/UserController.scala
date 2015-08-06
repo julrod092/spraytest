@@ -4,16 +4,16 @@ import com.example.domain.{User, UserLogin}
 import com.example.repository.UserDAO
 import com.mongodb.casbah.Imports._
 
-class ControllerUser {
+class UserController {
 
   private val userDAO = new UserDAO
 
-  def registerUser(user: User): Boolean = {
-    val create = userDAO.createUser(user)
+  def registerUser(user: User): (Boolean,String) = {
+    val (create,msg) = userDAO.createUser(user)
     if (create) {
-      true
+      (true,msg)
     } else {
-      false
+      (false,msg)
     }
   }
 

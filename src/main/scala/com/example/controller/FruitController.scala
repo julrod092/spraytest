@@ -10,7 +10,8 @@ class FruitController {
 
   def addFruit(fruit: Fruit): Boolean = {
     val create = fruitDAO.addFruit(fruit)
-    if (create) {
+    print(create)
+    if (create.booleanValue()) {
       true
     } else {
       false

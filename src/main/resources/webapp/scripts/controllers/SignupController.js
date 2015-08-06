@@ -14,10 +14,12 @@ angular
           function(success){
             $scope.success = success
             $scope.alertsuc = true
+            $scope.alerterr = false
           },
           function(error){
-            $scope.success = error
+            $scope.error = error
             $scope.alerterr = true
+            $scope.alertsuc = false
           }
         );
       }

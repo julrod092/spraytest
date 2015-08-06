@@ -2,8 +2,8 @@ package com.example.repository
 
 import com.example.config.MongoConnection
 import com.example.controller.transformer.UserTransformer
-import com.example.domain.{User, UserLogin}
-import com.mongodb.MongoExecutionTimeoutException
+import com.example.domain.{UserLogin, User}
+import com.mongodb.{MongoException, BasicDBObject, MongoExecutionTimeoutException}
 import com.mongodb.casbah.MongoCursor
 import com.mongodb.casbah.commons.MongoDBObject
 
@@ -11,20 +11,24 @@ class UserDAO {
 
   lazy val collection = new MongoConnection("user")
 
-  def createUser (user : User) : Boolean = {
+  def createUser (user : User) : (Boolean,String) = {
     val userMongoObject = new UserTransformer
     try{
+      collection.collection.createIndex(new BasicDBObject("email", 1), new BasicDBObject("unique", true))
       collection.collection.insert(userMongoObject.mongoDBObject(user))
-      true
+      (true,"Creacion correcta")
     }catch{
-      case t : MongoExecutionTimeoutException => false
+      case t : MongoExecutionTimeoutException => (false,"MongDB esta apagado")
+      case t : MongoException => (false,"Usuario ya existe")
     }
   }
 
-  def getAllUsers : MongoCursor = {
-    val getAllUsers = collection.collection.find()
-    println(getAllUsers)
-    getAllUsers
+  def findAllUsers : MongoCursor = collection.collection.find()
+
+  def findUserByName (name : String) = {
+    lazy val query = MongoDBObject("name" -> name)
+    lazy val result = collection.collection.findOne(query)
+    result
   }
 
   def findUserByEmail (userLogin: UserLogin) = {
