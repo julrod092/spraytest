@@ -2,20 +2,16 @@ package com.example.controller
 
 import com.example.domain.Fruit
 import com.example.repository.FruitDAO
+import spray.http.HttpResponse
 
 import scala.util.parsing.json.JSONArray
 
 class FruitController {
   private val fruitDAO = new FruitDAO
 
-  def addFruit(fruit: Fruit): Boolean = {
+  def addFruit(fruit: Fruit): HttpResponse = {
     val create = fruitDAO.addFruit(fruit)
-    print(create)
-    if (create.booleanValue()) {
-      true
-    } else {
-      false
-    }
+    create
   }
 
   def getAllFruits: String = {
