@@ -4,19 +4,19 @@ import akka.actor.{Actor, ActorLogging, ActorRef, Props}
 import spray.routing.HttpService
 
 object ApiRouteActor {
-  def props (route1 : ActorRef, route2 : ActorRef) : Props = Props(new ApiRouteActor(route1, route2))
+  def props (userService : ActorRef, fruitService : ActorRef) : Props = Props(new ApiRouteActor(userService, fruitService))
 }
 
-class ApiRouteActor (route1 : ActorRef, route2 : ActorRef) extends Actor with HttpService with ActorLogging {
+class ApiRouteActor (userService : ActorRef, fruitService : ActorRef) extends Actor with HttpService with ActorLogging {
 
   def actorRefFactory = context
   def receive = runRoute{
     compressResponseIfRequested() {
       pathPrefix("user"){
-        ctx => route1 ! ctx
+        ctx => userService ! ctx
       } ~
         pathPrefix("fruit"){
-          ctx => route2 ! ctx
+          ctx => fruitService ! ctx
         }
     }~
       compressResponseIfRequested(){

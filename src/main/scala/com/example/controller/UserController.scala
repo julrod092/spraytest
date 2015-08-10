@@ -1,20 +1,24 @@
 package com.example.controller
 
+
+import com.example.config.MailConfig
 import com.example.domain.{User, UserLogin}
 import com.example.repository.UserDAO
 import com.mongodb.casbah.Imports._
 import spray.http.{HttpResponse, StatusCodes}
-import com.example.actors.email.EmailActor
 
 class UserController {
-
   private val userDAO = new UserDAO
-  
+  private val mail = new MailConfig
+
   def registerUser(user: User): HttpResponse = {
     val create = userDAO.createUser(user)
-    create
+    create match {
+      case true => mail.send(user); HttpResponse(StatusCodes.OK, "User correctly registration")
+      case false => HttpResponse(StatusCodes.BadRequest, "Wrong Registration")
     }
-  
+  }
+
   def loginUser(userLogin: UserLogin) : HttpResponse = {
     val findByName = userDAO.findUserByEmail(userLogin)
     try{
