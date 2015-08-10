@@ -11,9 +11,7 @@ class UserController {
   private val userDAO = new UserDAO
   
   def registerUser(user: User): HttpResponse = {
-    val emailActor = new EmailActor(user)
     val create = userDAO.createUser(user)
-    emailActor.receive
     create
     }
   

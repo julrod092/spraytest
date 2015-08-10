@@ -10,9 +10,10 @@ import javax.mail.internet._
 /**
  * @author luis.saldarriaga
  */
-class EmailActor(user:User){
+class EmailActor extends Actor{
 
   def receive = {
+    case user:User =>
       val FROM: String = "micredito@rapicredit.com"
       val TO: String = user.email
       val BODY: String = "This email was sent through Amazon SES by using the AWS SDK for Java."

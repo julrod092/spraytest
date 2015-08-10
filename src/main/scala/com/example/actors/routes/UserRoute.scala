@@ -1,21 +1,28 @@
 package com.example.actors.routes
 
-import akka.actor.{Actor, Props}
+import akka.actor.{ Actor, Props }
 import com.example.controller.UserController
-import com.example.domain.{User, UserLogin}
+import com.example.domain.{ User, UserLogin }
 import spray.httpx.SprayJsonSupport
 import spray.routing._
+import spray.http.HttpHeaders
+import com.example.actors.email.EmailActor
+import scala.concurrent.ExecutionContext.Implicits.global._
 
-object UserRouteActor{
-  def props : Props = Props(new UserRouteActor)
+object UserRouteActor {
+  def props: Props = Props(new UserRouteActor)
+
 }
 
-class UserRouteActor extends Actor with UserRouteTrait {
+class UserRouteActor extends Actor with HttpService with SprayJsonSupport {
+
+  val AccessControlAllowAll = HttpHeaders.RawHeader(
+    "Access-Control-Allow-Origin", "*")
+  val AccessControlAllowHeadersAll = HttpHeaders.RawHeader(
+    "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   def actorRefFactory = context
+  val emailActor = context.actorOf(Props[EmailActor])
   def receive = runRoute(userRoute)
-}
-
-trait UserRouteTrait extends HttpService with SprayJsonSupport {
 
   val userController = new UserController
 
@@ -23,30 +30,33 @@ trait UserRouteTrait extends HttpService with SprayJsonSupport {
     put {
       putRoute
     } ~
-    post {
-      postRoute
-    }
+      post {
+        postRoute
+      }
 
   protected lazy val putRoute =
     entity(as[User]) { user =>
       val create = userController.registerUser(user)
       detach() {
-        complete{
-          println("Holi")
+        complete {
+          emailActor ! user
           create
         }
       }
 
-  }
+    }
 
   protected lazy val postRoute =
     entity(as[UserLogin]) { userLogin =>
-      detach() {
-        val login = userController.loginUser(userLogin)
-        complete{
-          login
-          
+      respondWithHeaders(AccessControlAllowAll, AccessControlAllowHeadersAll) {
+        detach() {
+          val login = userController.loginUser(userLogin)
+          complete {
+            login
+
+          }
         }
       }
     }
 }
+
