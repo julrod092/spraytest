@@ -27,7 +27,7 @@ libraryDependencies ++= {
     "org.json4s"          %% "json4s-native"  % "3.2.11",
     "com.amazonaws" % "aws-java-sdk" % "1.10.10",
     "nl.rhinofly" %% "play-mailer" % "3.0.0",
-    "org.slf4j" % "slf4j-parent" % "1.7.12"
+    "org.slf4j" % "slf4j-simple" % "1.7.12"
   )
 }
 
