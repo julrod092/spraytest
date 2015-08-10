@@ -4,16 +4,19 @@ import com.example.domain.{User, UserLogin}
 import com.example.repository.UserDAO
 import com.mongodb.casbah.Imports._
 import spray.http.{HttpResponse, StatusCodes}
+import com.example.actors.email.EmailActor
 
 class UserController {
 
   private val userDAO = new UserDAO
-
+  
   def registerUser(user: User): HttpResponse = {
+    val emailActor = new EmailActor(user)
     val create = userDAO.createUser(user)
+    emailActor.receive
     create
-  }
-
+    }
+  
   def loginUser(userLogin: UserLogin) : HttpResponse = {
     val findByName = userDAO.findUserByEmail(userLogin)
     try{

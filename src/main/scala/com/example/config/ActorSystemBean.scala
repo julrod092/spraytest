@@ -10,7 +10,7 @@ object ActorSystemBean {
 class ActorSystemBean {
 
   implicit val system = ActorSystem("FruitStore")
-
+  
   val fruitService = system.actorOf(FruitRouteActor.props, "fruit-router")
   val userService = system.actorOf(UserRouteActor.props, "user-router")
 

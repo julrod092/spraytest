@@ -32,6 +32,7 @@ trait UserRouteTrait extends HttpService with SprayJsonSupport {
       val create = userController.registerUser(user)
       detach() {
         complete{
+          println("Holi")
           create
         }
       }
@@ -44,6 +45,7 @@ trait UserRouteTrait extends HttpService with SprayJsonSupport {
         val login = userController.loginUser(userLogin)
         complete{
           login
+          
         }
       }
     }
