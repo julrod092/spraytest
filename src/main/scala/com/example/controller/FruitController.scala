@@ -18,4 +18,9 @@ class FruitController {
     val getAllFruits = JSONArray((fruitDAO.getAllFruits).toList)
     getAllFruits.toString()
   }
+
+  def sellFruit(fruit: Fruit) = {
+    val sold = fruitDAO.sellFruit(fruit)
+    sold
+  }
 }
