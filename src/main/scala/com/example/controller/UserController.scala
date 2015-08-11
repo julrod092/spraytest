@@ -1,22 +1,33 @@
 package com.example.controller
 
-import akka.actor.ActorSystem
 import com.example.domain.{User, UserLogin}
 import com.example.repository.UserDAO
 import com.mongodb.casbah.Imports._
 import spray.http.{HttpResponse, StatusCodes}
-import scala.concurrent.duration._
+
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 class UserController {
   private val userDAO = new UserDAO
   private val mail = new MailController
 
-  def registerUser(user: User): HttpResponse = {
+  def registerUser(user: User) = {
     val create = userDAO.createUser(user)
     create match {
-      case true => mail.sendMail(user.email, "Test", "Test"); HttpResponse(StatusCodes.OK, "User correctly registration")
+      case true =>
+        completeSendEmail (user.email)
+        HttpResponse(StatusCodes.OK, "User correctly registration")
       case false => HttpResponse(StatusCodes.BadRequest, "Wrong Registration")
+    }
+  }
+
+  def completeSendEmail (email : String): Unit ={
+    val future = Future{mail.sendMail(email, "Test", "Test")}
+    future onComplete{
+      case Success(_) => println("Email correctly send")
+      case Failure(_) => println("Email not send")
     }
   }
 
