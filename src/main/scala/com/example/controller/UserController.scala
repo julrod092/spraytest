@@ -27,7 +27,7 @@ class UserController {
     val future = Future{mail.sendMail(email, "Test", "Test")}
     future onComplete{
       case Success(_) => println("Email correctly send")
-      case Failure(_) => completeSendEmail(email)
+      case Failure(_) => println("wrong"); //completeSendEmail(email)
     }
   }
 
