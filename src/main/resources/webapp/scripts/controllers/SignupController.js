@@ -1,7 +1,8 @@
 angular
   .module('StoreFruits')
   .controller('SignupController', [ '$scope', 'userService', '$http',
-    function($scope, userService, $http){
+  '$timeout',
+    function($scope, userService, $http, $timeout){
       
       $scope.success = ""
       
@@ -14,14 +15,16 @@ angular
           function(success){
             $scope.success = success
             $scope.alertsuc = true
-            $scope.alerterr = false
           },
           function(error){
             $scope.error = error
             $scope.alerterr = true
-            $scope.alertsuc = false
           }
         );
+        $timeout(function () {
+          $scope.alertsuc = false;
+          $scope.alerterr = false;
+        }, 6000);
       }
     }
   ]);

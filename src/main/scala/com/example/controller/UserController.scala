@@ -17,7 +17,7 @@ class UserController {
     val create = userDAO.createUser(user)
     create match {
       case true =>
-        completeSendEmail (user.email)
+        completeSendEmail(user.email)
         HttpResponse(StatusCodes.OK, "User correctly registration")
       case false => HttpResponse(StatusCodes.BadRequest, "Wrong Registration")
     }
@@ -27,7 +27,7 @@ class UserController {
     val future = Future{mail.sendMail(email, "Test", "Test")}
     future onComplete{
       case Success(_) => println("Email correctly send")
-      case Failure(_) => println("Email not send")
+      case Failure(_) => completeSendEmail(email)
     }
   }
 
