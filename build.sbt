@@ -7,7 +7,7 @@ scalaVersion  := "2.10.5"
 scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 
 resolvers ++= Seq(
-  "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/"
+  "Typesafe repository releases" at "http://repo.typesafe" + ".com/typesafe/releases/"
 )
 
 libraryDependencies ++= {
@@ -23,7 +23,8 @@ libraryDependencies ++= {
     "org.mongodb"         %% "casbah"         % "2.8.2",
     "io.spray"            %%  "spray-json"    % "1.3.2",
     "org.json4s"          %% "json4s-native"  % "3.2.11",
-    "javax.mail"          % "mail"            % "1.4.7"
+    "javax.mail"          %   "mail"            % "1.4.7",
+    "com.github.eirslett" %% "sbt-slf4j" % "0.1"
   )
 }
 
