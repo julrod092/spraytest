@@ -1,20 +1,21 @@
 package com.example.controller
 
-
-import com.example.config.MailConfig
+import akka.actor.ActorSystem
 import com.example.domain.{User, UserLogin}
 import com.example.repository.UserDAO
 import com.mongodb.casbah.Imports._
 import spray.http.{HttpResponse, StatusCodes}
+import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class UserController {
   private val userDAO = new UserDAO
-  private val mail = new MailConfig
+  private val mail = new MailController
 
   def registerUser(user: User): HttpResponse = {
     val create = userDAO.createUser(user)
     create match {
-      case true => mail.send(user); HttpResponse(StatusCodes.OK, "User correctly registration")
+      case true => mail.sendMail(user.email, "Test", "Test"); HttpResponse(StatusCodes.OK, "User correctly registration")
       case false => HttpResponse(StatusCodes.BadRequest, "Wrong Registration")
     }
   }

@@ -8,21 +8,23 @@ import spray.routing._
 import spray.http.HttpHeaders
 import com.example.actors.email.EmailActor
 import scala.concurrent.ExecutionContext.Implicits.global._
-import akka.actor.ActorLogging
-import spray.http.StatusCodes
-import akka.actor.PoisonPill
 
 object UserRouteActor {
   def props: Props = Props(new UserRouteActor)
+
 }
 
-class UserRouteActor extends Actor with UserRouteTrait {
+class UserRouteActor extends Actor with HttpService with SprayJsonSupport {
+
+  val AccessControlAllowAll = HttpHeaders.RawHeader(
+    "Access-Control-Allow-Origin", "*")
+  val AccessControlAllowHeadersAll = HttpHeaders.RawHeader(
+    "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   def actorRefFactory = context
-
+  val emailActor = context.actorOf(Props[EmailActor])
   def receive = runRoute(userRoute)
-}
 
-trait UserRouteTrait extends HttpService with SprayJsonSupport { actor: Actor =>
+  val userController = new UserController
 
   val userRoute =
     put {
@@ -34,26 +36,27 @@ trait UserRouteTrait extends HttpService with SprayJsonSupport { actor: Actor =>
 
   protected lazy val putRoute =
     entity(as[User]) { user =>
-
-      detach() { requestContext =>
-        val responder = createResponder(requestContext)
-        responder ! user
+      val create = userController.registerUser(user)
+      detach() {
+        complete {
+          //emailActor ! user
+          create
+        }
       }
 
     }
 
   protected lazy val postRoute =
     entity(as[UserLogin]) { userLogin =>
+      respondWithHeaders(AccessControlAllowAll, AccessControlAllowHeadersAll) {
+        detach() {
+          val login = userController.loginUser(userLogin)
+          complete {
+            login
 
-      detach() { requestContext =>
-        val responder = createResponder(requestContext)
-        responder ! userLogin
+          }
+        }
       }
-
     }
-  
-  import com.example.actors.email.Responder
-  private def createResponder(requestContext: RequestContext) =
-    context.actorOf(Props(new Responder(requestContext)))
 }
 
