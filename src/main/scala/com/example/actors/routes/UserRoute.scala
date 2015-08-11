@@ -1,28 +1,25 @@
 package com.example.actors.routes
 
-import akka.actor.{ Actor, Props }
+import akka.actor.{Actor, Props}
 import com.example.controller.UserController
-import com.example.domain.{ User, UserLogin }
+import com.example.domain.{User, UserLogin}
+import spray.http.MediaTypes._
 import spray.httpx.SprayJsonSupport
 import spray.routing._
-import spray.http.HttpHeaders
-import com.example.actors.email.EmailActor
-import scala.concurrent.ExecutionContext.Implicits.global._
+
 
 object UserRouteActor {
   def props: Props = Props(new UserRouteActor)
 
 }
 
-class UserRouteActor extends Actor with HttpService with SprayJsonSupport {
+class UserRouteActor extends Actor with UserRouteTrait{
 
-  val AccessControlAllowAll = HttpHeaders.RawHeader(
-    "Access-Control-Allow-Origin", "*")
-  val AccessControlAllowHeadersAll = HttpHeaders.RawHeader(
-    "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   def actorRefFactory = context
-  val emailActor = context.actorOf(Props[EmailActor])
   def receive = runRoute(userRoute)
+}
+
+trait UserRouteTrait extends HttpService with SprayJsonSupport{
 
   val userController = new UserController
 
@@ -39,7 +36,6 @@ class UserRouteActor extends Actor with HttpService with SprayJsonSupport {
       val create = userController.registerUser(user)
       detach() {
         complete {
-          //emailActor ! user
           create
         }
       }
@@ -48,15 +44,14 @@ class UserRouteActor extends Actor with HttpService with SprayJsonSupport {
 
   protected lazy val postRoute =
     entity(as[UserLogin]) { userLogin =>
-      respondWithHeaders(AccessControlAllowAll, AccessControlAllowHeadersAll) {
         detach() {
           val login = userController.loginUser(userLogin)
-          complete {
-            login
-
+          respondWithMediaType(`application/json`) {
+            complete {
+              login
+            }
           }
         }
-      }
     }
 }
 
