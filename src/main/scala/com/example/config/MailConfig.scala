@@ -5,10 +5,6 @@ import javax.mail.{PasswordAuthentication, Session}
 
 import com.typesafe.config.ConfigFactory
 
-
-/**
- * Created by julian.rodriguez on 10/08/2015.
- */
 class MailConfig {
 
   val conf = ConfigFactory.load()
@@ -25,7 +21,7 @@ class MailConfig {
     val session = Session.getInstance(props,
       new javax.mail.Authenticator() {
         override def getPasswordAuthentication: PasswordAuthentication = {
-          return new PasswordAuthentication(smtp.getString("username"), smtp.getString("password"))
+          new PasswordAuthentication(smtp.getString("username"), smtp.getString("password"))
         }
       })
     session
