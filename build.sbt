@@ -23,8 +23,7 @@ libraryDependencies ++= {
     "org.mongodb"         %% "casbah"         % "2.8.2",
     "io.spray"            %%  "spray-json"    % "1.3.2",
     "org.json4s"          %% "json4s-native"  % "3.2.11",
-    "javax.mail"          %   "mail"            % "1.4.7",
-    "com.github.eirslett" %% "sbt-slf4j" % "0.1"
+    "javax.mail"          %   "mail"            % "1.4.7"
   )
 }
 
